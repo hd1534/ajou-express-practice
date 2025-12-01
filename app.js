@@ -61,6 +61,21 @@ app.get('/likes', async (req, res) => {
     }
 })
 
+app.post('/likes', async (req, res) => {
+    let item = req.body
+    let db = firebase.firestore()
+    let r = await db.collection('likes').doc(`${item.collectionId}`).set(item).catch(e => console.log(e))
+
+    res.json({msg: "OK"})
+})
+
+app.delete('/likes/:id', async (req, res) => {
+    let db = firebase.firestore()
+    let r = await db.collection('likes').doc(req.params.id).delete().catch(e => console.log(e))
+
+    res.json({msg: "OK"})
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
