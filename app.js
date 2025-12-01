@@ -52,10 +52,7 @@ app.get('/likes', async (req, res) => {
     }
     else {
         snapshot.forEach(doc => {
-            results.push({
-                id: doc.id,
-                like: doc.data().like
-            })
+            results.push(doc.data())
         })
         res.json(results)
     }
