@@ -20,6 +20,11 @@ app.get('/user', (req, res) => {
     res.send(`User id is ${req.query.id}`)
 })
 
+app.post('/user', (req, res) => {
+    console.log(req.body.name)
+    res.send(req.body)
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
