@@ -1,6 +1,7 @@
 const express = require('express')
 const logger = require('morgan')
 const axios = require('axios')
+const firebase = require('./firebase')
 
 const app = express()
 const port = 3000
@@ -37,6 +38,27 @@ app.get('/musicSearch/:term', async (req, res) => {
     var response = await axios.get('https://itunes.apple.com/search', {params})
     console.log(response.data)
     res.json(response.data)
+})
+
+app.get('/likes', async (req, res) => {
+    var db = firebase.firestore()
+    const snapshot = await db.collection('likes').get().catch(e => console.log(e))
+    
+    var results = []
+    if (snapshot.empty) {
+        console.log("No result")
+        res.json([])
+        return
+    }
+    else {
+        snapshot.forEach(doc => {
+            results.push({
+                id: doc.id,
+                like: doc.data().like
+            })
+        })
+        res.json(results)
+    }
 })
 
 app.listen(port, () => {
