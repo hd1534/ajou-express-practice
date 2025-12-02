@@ -1,6 +1,8 @@
 const express = require('express')
 const logger = require('morgan')
 const axios = require('axios')
+const cors = require('cors')
+
 const firebase = require('./firebase')
 
 const app = express()
@@ -11,6 +13,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(logger('dev'))
 app.use(express.static('public'))
+app.use(cors({ origin : '*'}))
 
 app.get('/', (req, res) => {
     res.sendFile('index.html')
